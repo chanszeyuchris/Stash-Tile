@@ -5,14 +5,10 @@ async function main() {
         const configData = JSON.parse(configResponse.data);
         const isRunning = configData.running;
 
-        // 获取当前IP地址
-        const ipResponse = await $httpClient.get('https://api.my-ip.io/ip');
-        const currentIP = ipResponse.data;
-
         // 更新 Tile
         $done({
             title: 'Stash Control',
-            content: `Current IP: ${currentIP}\nStatus: ${isRunning ? 'Running' : 'Stopped'}`,
+            content: `Status: ${isRunning ? 'Running' : 'Stopped'}`,
             backgroundColor: '#663399',
             icon: 'network',
             actions: [
