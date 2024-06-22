@@ -1,11 +1,13 @@
 async function main() {
     // 获取代理组列表
     $httpClient.get('http://localhost:9090/proxies', function(error, response, data) {
-        const proxyGroups = JSON.parse(data);
-        const autoSelectGroup = proxyGroups.proxies['自动选择'];
+        const autoSelectGroupMatch = data.match(/"自动选择"\s*:\s*{[^}]+}/);
+        const autoSelectGroupData = autoSelectGroupMatch ? autoSelectGroupMatch[0] : '';
+        const currentNodeMatch = autoSelectGroupData.match(/"now"\s*:\s*"([^"]+)"/);
+        const currentDelayMatch = autoSelectGroupData.match(/"delay"\s*:\s*([0-9]+)/);
 
-        const currentNode = autoSelectGroup.now;
-        const currentDelay = autoSelectGroup.history.find(item => item.name === currentNode)?.delay || 'N/A';
+        const currentNode = currentNodeMatch ? currentNodeMatch[1] : 'N/A';
+        const currentDelay = currentDelayMatch ? currentDelayMatch[1] : 'N/A';
 
         // 更新 Tile
         $done({
