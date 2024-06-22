@@ -58,6 +58,7 @@ async function main() {
 }
 
 async function switchProxy(proxyName) {
+    console.log(`Switching to ${proxyName}`);
     try {
         const response = await fetch('http://127.0.0.1:9090/proxies/选择代理', {
             method: 'PUT',
@@ -70,7 +71,8 @@ async function switchProxy(proxyName) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         console.log(`Switched to ${proxyName}`);
-        main(); // Refresh the tile after switching
+        // 等待几秒钟以确保代理切换生效，然后重新执行 main 函数以刷新数据
+        setTimeout(main, 2000);
     } catch (error) {
         console.log('Switch proxy failed for switch-proxy-group:', error);
         $done({
