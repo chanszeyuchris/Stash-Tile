@@ -1,7 +1,7 @@
 async function main() {
     try {
-        // 获取当前配置状态
-        $httpClient.get('http://localhost:9090/config', function(error, response, data) {
+        // 获取代理组列表
+        $httpClient.get('http://localhost:9090/proxies', function(error, response, data) {
             if (error) {
                 console.log(`Error: ${error}`);
                 $done({
@@ -13,31 +13,29 @@ async function main() {
                 return;
             }
 
-            const isRunning = data.includes('"running":true');
+            const proxyGroups = JSON.parse(data);
+            const autoSelectGroup = proxyGroups.proxies['自动选择'];
 
-            // 获取当前IP地址
-            $httpClient.get('https://api.my-ip.io/ip', function(error, response, ipData) {
-                if (error) {
-                    console.log(`Error: ${error}`);
-                    $done({
-                        title: 'Error',
-                        content: 'Failed to load IP.',
-                        backgroundColor: '#FF0000',
-                        icon: 'exclamationmark.triangle.fill',
-                    });
-                    return;
-                }
-
-                // 更新 Tile
+            if (!autoSelectGroup) {
+                console.log(`Auto Select group not found`);
                 $done({
-                    title: 'Stash Control',
-                    content: `Current IP: ${ipData.trim()}\nStatus: ${isRunning ? 'Running' : 'Stopped'}`,
-                    backgroundColor: '#663399',
-                    icon: 'network',
-                    actions: [
-                        { label: isRunning ? 'Stop' : 'Start', handler: isRunning ? 'stopStash' : 'startStash' }
-                    ]
+                    title: 'Error',
+                    content: 'Auto Select group not found.',
+                    backgroundColor: '#FF0000',
+                    icon: 'exclamationmark.triangle.fill',
                 });
+                return;
+            }
+
+            const currentNode = autoSelectGroup.now;
+            const currentDelay = autoSelectGroup.history.find(item => item.name === currentNode)?.delay || 'N/A';
+
+            // 更新 Tile
+            $done({
+                title: 'Auto Select Status',
+                content: `Node: ${currentNode}\nDelay: ${currentDelay} ms`,
+                backgroundColor: '#40E0D0', // 浅蓝绿色
+                icon: 'globe',
             });
         });
     } catch (error) {
@@ -49,26 +47,6 @@ async function main() {
             icon: 'exclamationmark.triangle.fill',
         });
     }
-}
-
-function startStash() {
-    $httpClient.post('http://localhost:9090/config/start', {}, function(error, response, data) {
-        if (error) {
-            console.log(`Error starting Stash: ${error}`);
-            return;
-        }
-        main(); // Refresh the tile after starting
-    });
-}
-
-function stopStash() {
-    $httpClient.post('http://localhost:9090/config/stop', {}, function(error, response, data) {
-        if (error) {
-            console.log(`Error stopping Stash: ${error}`);
-            return;
-        }
-        main(); // Refresh the tile after stopping
-    });
 }
 
 main();
