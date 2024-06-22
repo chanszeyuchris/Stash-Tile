@@ -1,19 +1,12 @@
 async function main() {
     // 获取代理组列表
     $httpClient.get('http://localhost:9090/proxies', function(error, response, data) {
-        if (error) {
-            $done({
-                title: 'Auto Select Status',
-                content: 'Failed to load data.',
-                backgroundColor: '#FF0000',
-                icon: 'exclamationmark.triangle.fill'
-            });
-            return;
-        }
+        // 尝试解码返回的数据
+        const decodedData = decodeURIComponent(escape(data));
 
         // 解析代理组数据
-        const proxyGroups = JSON.parse(data);
-        const autoSelectGroup = proxyGroups.find(group => group.name === '自动选择' && group.type === 'url-test');
+        const proxyGroups = JSON.parse(decodedData);
+        const autoSelectGroup = proxyGroups.proxies['自动选择'];
 
         if (autoSelectGroup) {
             const currentNode = autoSelectGroup.now;
