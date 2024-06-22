@@ -26,7 +26,7 @@ async function main() {
 
             // 更新 Tile
             $done({
-                title: 'Select Proxy Status',
+                title: 'Select Proxy',
                 content: `Node: ${currentNode}\nDelay: ${currentDelay} ms`,
                 backgroundColor: '#8A2BE2', // 偏蓝的浅紫色
                 icon: 'globe',
@@ -42,7 +42,7 @@ async function main() {
         } else {
             console.log('Select Proxy group not found');
             $done({
-                title: 'Select Proxy Status',
+                title: 'Select Proxy',
                 content: 'Select Proxy group not found.',
                 backgroundColor: '#FF0000',
                 icon: 'exclamationmark.triangle.fill',
@@ -51,7 +51,7 @@ async function main() {
     } catch (error) {
         console.log('HTTP request failed:', error);
         $done({
-            title: 'Select Proxy Status',
+            title: 'Select Proxy',
             content: `Failed to load data: ${error.message}`,
             backgroundColor: '#FF0000',
             icon: 'exclamationmark.triangle.fill',
@@ -76,7 +76,7 @@ async function switchProxy(proxyName) {
     } catch (error) {
         console.log('Switch proxy failed:', error);
         $done({
-            title: 'Select Proxy Status',
+            title: 'Select Proxy',
             content: `Failed to switch proxy: ${error.message}`,
             backgroundColor: '#FF0000',
             icon: 'exclamationmark.triangle.fill',
