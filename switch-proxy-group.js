@@ -58,7 +58,7 @@ async function main() {
 
 function switchProxy(proxyName) {
     console.log(`Switching to ${proxyName}`);
-    alert(`Switch button clicked for ${proxyName}`);
+    // 测试函数内容
 }
 
 window.switchProxy = switchProxy;
