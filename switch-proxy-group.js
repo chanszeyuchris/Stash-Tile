@@ -1,10 +1,8 @@
-// 在顶部定义一个测试函数
 function testFunction() {
     console.log('Test function called');
     alert('Switch button clicked');
 }
 
-// 将测试函数定义在全局范围内
 window.testFunction = testFunction;
 
 async function main() {
