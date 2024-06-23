@@ -38,8 +38,8 @@ async function main() {
             $done({
                 title: '当前代理组',
                 content: `${selectProxyGroup.now}\n${innerProxy}\n(${currentDelay !== 'Timeout' ? currentDelay : 'Timeout'} ms)`,
-                backgroundColor: '#8A2BE2', // 偏蓝的浅紫色
-                icon: 'key'
+                backgroundColor: '#40E0D0', 
+                icon: 'globe'
             });
         } else {
             console.log('Select Proxy group not found');
