@@ -32,7 +32,7 @@ async function main() {
                 actions: [
                     {
                         label: `Switch to ${nextNode}`,
-                        action: `window.switchProxy('${nextNode}')`
+                        action: `switchProxy('${nextNode}')`
                     }
                 ]
             });
@@ -58,7 +58,7 @@ async function main() {
 
 function switchProxy(proxyName) {
     console.log(`Switching to ${proxyName}`);
-    // 测试函数内容
+    alert(`Switch button clicked for ${proxyName}`);
 }
 
 window.switchProxy = switchProxy;
