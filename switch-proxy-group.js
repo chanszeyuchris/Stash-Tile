@@ -34,14 +34,10 @@ async function main() {
             }
             console.log(`Final delay: ${currentDelay}`);
 
-            const displayContent = `${selectProxyGroup.now}\n选择代理 下的 ${innerProxy}\n(${currentDelay !== 'Timeout' ? currentDelay : 'Timeout'} ms)`;
-
-            console.log('Display content for switch-proxy-group:', displayContent);
-
             // 更新 Tile
             $done({
                 title: '当前代理组',
-                content: displayContent,
+                content: `${selectProxyGroup.now}\n选择代理 下的 ${innerProxy}\n(${currentDelay !== 'Timeout' ? currentDelay : 'Timeout'} ms)`,
                 backgroundColor: '#8A2BE2', // 偏蓝的浅紫色
                 icon: 'key'
             });
