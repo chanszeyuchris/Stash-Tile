@@ -32,9 +32,7 @@ async function main() {
                 actions: [
                     {
                         label: `Switch to ${nextNode}`,
-                        action: `(() => {
-                            console.log('Switch button clicked for ${nextNode}');
-                        })()`
+                        action: `switchProxy('${nextNode}')`
                     }
                 ]
             });
@@ -57,5 +55,35 @@ async function main() {
         });
     }
 }
+
+async function switchProxy(proxyName) {
+    console.log(`Switching to ${proxyName}`);
+    try {
+        const response = await fetch('http://127.0.0.1:9090/proxies/选择代理', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name: proxyName })
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        console.log(`Switched to ${proxyName}`);
+        // 等待几秒钟以确保代理切换生效，然后重新执行 main 函数以刷新数据
+        setTimeout(main, 2000);
+    } catch (error) {
+        console.log('Switch proxy failed for switch-proxy-group:', error);
+        $done({
+            title: 'Select Proxy Status',
+            content: `Failed to switch proxy: ${error.message}`,
+            backgroundColor: '#FF0000',
+            icon: 'exclamationmark.triangle.fill',
+        });
+    }
+}
+
+// 确保 switchProxy 函数在全局范围内可用
+window.switchProxy = switchProxy;
 
 main();
