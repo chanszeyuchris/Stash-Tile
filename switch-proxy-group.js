@@ -37,7 +37,7 @@ async function main() {
             // 更新 Tile
             $done({
                 title: '当前代理组',
-                content: `${selectProxyGroup.now}\n选择代理 下的 ${innerProxy}\n(${currentDelay !== 'Timeout' ? currentDelay : 'Timeout'} ms)`,
+                content: `${selectProxyGroup.now}\n${innerProxy}\n(${currentDelay !== 'Timeout' ? currentDelay : 'Timeout'} ms)`,
                 backgroundColor: '#8A2BE2', // 偏蓝的浅紫色
                 icon: 'key'
             });
