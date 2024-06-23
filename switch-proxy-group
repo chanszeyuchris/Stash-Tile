@@ -32,7 +32,7 @@ async function main() {
                 actions: [
                     {
                         label: `Switch to ${nextNode}`,
-                        action: `window.switchProxy('${nextNode}')`
+                        action: `switchProxy('${nextNode}')`
                     }
                 ]
             });
