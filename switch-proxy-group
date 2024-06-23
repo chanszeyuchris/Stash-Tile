@@ -12,8 +12,7 @@ async function main() {
         const selectProxyGroup = data.proxies['选择代理'];
         if (selectProxyGroup) {
             const currentNode = selectProxyGroup.now;
-            const historyEntry = selectProxyGroup.history ? selectProxyGroup.history.find(item => item.name === currentNode) : null;
-            const currentDelay = historyEntry ? historyEntry.delay : 'Timeout';
+            const currentDelay = selectProxyGroup.delay || 'Timeout';
 
             console.log('Current node for switch-proxy-group:', currentNode);
             console.log('Current delay for switch-proxy-group:', currentDelay);
@@ -83,5 +82,8 @@ async function switchProxy(proxyName) {
         });
     }
 }
+
+// 确保 switchProxy 函数在全局范围内可用
+window.switchProxy = switchProxy;
 
 main();
