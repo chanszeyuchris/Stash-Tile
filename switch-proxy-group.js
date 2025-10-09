@@ -2,7 +2,7 @@ async function main() {
     console.log('Starting main function for switch-proxy-group');
 
     try {
-        const response = await fetch('http://127.0.0.1:9090/proxies', { method: 'GET', timeout: 20000 headers: {
+        const response = await fetch('http://127.0.0.1:9090/proxies', { method: 'GET', timeout: 20000, headers: {
         'Authorization': 'Bearer NhT7wv98',}});
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
