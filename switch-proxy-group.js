@@ -1,9 +1,25 @@
 async function main() {
     console.log('Starting main function for switch-proxy-group');
 
+    // Put your real token here
+    const token = 'NhT7wv98';
+
+    // Use AbortController to implement a timeout for fetch
+    const controller = new AbortController();
+    const timeoutMs = 20000;
+    const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
     try {
-        const response = await fetch('http://127.0.0.1:9090/proxies', { method: 'GET', timeout: 20000, headers: {
-        'Authorization': 'Bearer ${NhT7wv98}'},});
+        const response = await fetch('http://127.0.0.1:9090/proxies', {
+            method: 'GET',
+            headers: {
+                // Use template literal to include the token
+                'Authorization': `Bearer ${token}`,
+            },
+            signal: controller.signal,
+        });
+        clearTimeout(timeout);
+
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -39,7 +55,7 @@ async function main() {
             $done({
                 title: '当前代理组',
                 content: `${selectProxyGroup.now}\n${innerProxy}\n(${currentDelay !== 'Timeout' ? currentDelay : 'Timeout'} ms)`,
-                backgroundColor: '#40E0D0', 
+                backgroundColor: '#40E0D0',
                 icon: 'globe'
             });
         } else {
@@ -52,6 +68,7 @@ async function main() {
             });
         }
     } catch (error) {
+        clearTimeout(timeout);
         console.log('HTTP request failed for switch-proxy-group:', error);
         $done({
             title: '当前代理组',
